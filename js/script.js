@@ -7,7 +7,7 @@ FSJS project 2 - List Filter and Pagination
 const listItems = document.querySelector('.student-list').children;
 const itemsPerPage = 10;
 
-// Loads the page and displays the first 10 items in list
+// Loads the page and displays the first 10 items in list initially
 document.addEventListener('DOMContentLoaded', () => {
    showPage(listItems, 1);
 })
@@ -67,10 +67,11 @@ function appendPageLinks(list) {
             a[i].className = 'active';
          }
          // Calls the function to display the items on the desired page
-         showPage(listItems, event.target.textContent);
+         showPage(list, event.target.textContent);
       });
    }   
 }
+
 appendPageLinks(listItems);
 
 // <---------------------------------- EXTRA CREDIT ----------------------------------------->
@@ -90,15 +91,14 @@ function search (list)  {
    button.textContent = "Search"
    div.appendChild(button);
 
-   // Searches and filters from the list everytime a key is pressed.
+   // Searches and filters from the list everytime a key is pressed.   
    input.addEventListener('keyup', (e) => {
       for (let i=0; i<list.length; i++) {
          // Filters the matching result and displays it on the screen
-         // Code taken from: https://www.w3schools.com/jsref/jsref_includes.asp
-         if (e.target.value !== 0 && list[i].textContent.toLowerCase().includes(e.target.value.toLowerCase()) ) {
-            // Add the matched items to the new list
-            newList.push(list[i]);    
+         // Code taken from: https://teamtreehouse.com/workspaces/41026168 and https://www.w3schools.com/jsref/jsref_includes.asp
+         if (list[i].textContent.toLowerCase().includes(e.target.value.toLowerCase()) ) {
             list[i].style.display = 'block' ;
+            newList.push(list[i]);
          } else {
             list[i].style.display = 'none';
          }
@@ -106,23 +106,31 @@ function search (list)  {
   
       // If there are no matched items then it displays 'No Results' on the screen
       if (newList.length == 0) {
-         const h2 = document.createElement('h2');
+         var h2 = document.createElement('h2');
          document.querySelector('.page').insertBefore(h2, document.querySelector('.student-list'));
-         
          h2.innerHTML = "<h2> No Results </h2>"
+      } else {
+         if (document.querySelectorAll('h2')[1])  {
+            document.querySelectorAll('h2')[1].style.display = "none";
+         }
       }
       // Displays the pagination links (NOT WORKING)
-         appendPageLinks(newList);
-         // Empty the array so that it does not add the previous list items.
-         newList = [];
+      document.querySelector('.page').lastElementChild.style.display = 'none';
+      if (newList.length > 0) {
+         appendPageLinks(newList);         
+      } else if (newList.length == 0) {
+         appendPageLinks(list);             
+      }
+
+      // Empty the arrays so that they do not add the previous list items.
+      newList = [];
    });
 
    // Searches and filters from the list everytime 'search' button is clicked.
    button.addEventListener('click', (e) => {
       for (let i=0; i<list.length; i++) {
          // Filters the matching result and displays it on the screen
-
-         // Code taken from: https://www.w3schools.com/jsref/jsref_includes.asp
+         // Code taken from:https://teamtreehouse.com/workspaces/41026168 and https://www.w3schools.com/jsref/jsref_includes.asp
          if (input.value !== 0 &&  list[i].textContent.toLowerCase().includes(input.value.toLowerCase()) ) {
             list[i].style.display = 'block' ;
          } else {
@@ -133,4 +141,3 @@ function search (list)  {
 }
 
 search(listItems);
-
