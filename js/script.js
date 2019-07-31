@@ -2,6 +2,8 @@
 Treehouse Techdegree:
 FSJS project 2 - List Filter and Pagination
 ******************************************/
+
+// *** I am aiming for "Meets Expectation" ***
    
 // Global variables to store the list and list items per page
 const listItems = document.querySelector('.student-list').children;
@@ -74,7 +76,9 @@ function appendPageLinks(list) {
 
 appendPageLinks(listItems);
 
-// <---------------------------------- EXTRA CREDIT ----------------------------------------->
+
+// <---------------------------------- Exceeds Expectations ----------------------------------------->
+
 function search (list)  {
    var newList = [];
 
